@@ -1,0 +1,174 @@
+/* 1. Custom Background (Requirement) */
+body {
+    background-color: #faf9ff; /* Super light misty lavender */
+    margin: 0;
+    padding: 0;
+    /* 2. Style specifying Font Family (Requirement) */
+    font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+    /* 3. Style specifying Font Color (Requirement) */
+    color: #3c1361; /* DEEP DARK PURPLE text */
+    line-height: 1.8;
+}
+
+/* Nav Bar with subtle Dark Purple Border */
+.top-nav {
+    background-color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #3c1361; /* Bold dark purple underline */
+}
+
+.top-nav a {
+    color: #3c1361;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 800; /* Bolded links */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* Div 1: Header Styling */
+.hero-banner {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f3eaff; /* Slightly darker purple for header */
+}
+
+.hero-banner h1 {
+    font-family: 'Georgia', serif;
+    font-size: 4rem;
+    font-weight: 900; /* Bolded */
+    margin: 0;
+    color: #1a0633; /* Nearly black-purple */
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #3c1361;
+    font-style: italic;
+}
+
+.header-img {
+    width: 100%;
+    max-width: 650px;
+    border-radius: 10px;
+    margin-top: 25px;
+    border: 4px solid #3c1361; /* Dark Purple Frame */
+}
+
+/* Div 2 & 3 Positioning: Sidebar Layout */
+.main-wrapper {
+    display: flex;
+    max-width: 1100px;
+    margin: 40px auto;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+/* Div 2: Main Content */
+.main-content {
+    flex: 2;
+}
+
+.main-content h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: #3c1361;
+    border-bottom: 4px solid #3c1361; /* Bold underline */
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-top: 40px;
+}
+
+/* Div 3: Sidebar */
+.sidebar {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 25px;
+    border: 3px solid #3c1361; /* Dark Purple Border */
+    border-radius: 15px;
+    height: fit-content;
+    box-shadow: 8px 8px 0px #b19cd9; /* Lilac offset shadow */
+}
+.sidebar-img {
+    /* THIS IS THE MAGIC LINE YOU NEED TO ADD */
+    width: 100%;       /* It will fill the width of its purple box and NO bigger */
+    
+    max-width: 200px;  /* You might already have this from our last step */
+    display: block;
+    margin: 15px auto; /* Centers the photo */
+    border: 2px solid #3c1361; /* Matches your theme */
+    border-radius: 8px; /* Slightly rounded corners */
+}
+
+.sidebar h3 {
+    margin-top: 0;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+/* List Styling */
+.album-master-list {
+    margin-top: 30px;
+}
+
+.album-master-list li {
+    margin-bottom: 20px;
+}
+
+/* Video Styling */
+.video-wrapper {
+    margin-top: 30px;
+    border: 5px solid #3c1361;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+footer {
+    text-align: center;
+    padding: 50px;
+    color: #3c1361;
+    font-weight: bold;
+}
+
+.quote-box {
+    background: #f3eaff;
+    padding: 10px;
+    margin-top: 15px;
+    border-left: 5px solid #3c1361;
+}
+
+.tableau-container {
+    width: 100%;             
+    max-width: 700px;
+    height: 500px;         
+    margin: 30px auto;     
+    padding: 10px;
+    background-color: #fff;
+    border: 3px solid #3c1361; 
+    border-radius: 12px;
+    overflow: hidden;        
+    box-shadow: 8px 8px 0px #f3eaff;
+}
+
+.tableauPlaceholder, .tableauViz {
+    width: 100% !important;
+    height: 100% !important;
+}
+/* This targets the Navbar links on the Olivia page only */
+#mainNav .nav-link, #mainNav .navbar-brand {
+    color: #3c1361 !important; /* Your signature dark purple */
+    font-weight: 700;
+}
+
+/* This makes the links change color slightly when you hover over them */
+#mainNav .nav-link:hover {
+    color: #6a1b9a !important; /* A slightly lighter purple for the hover effect */
+}
+
+/* This fixes the "Menu" button on mobile so it's also purple */
+.navbar-toggler {
+    color: #3c1361 !important;
+    border-color: #3c1361 !important;
+}

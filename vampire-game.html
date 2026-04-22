@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vampire Dodger | GUTS Edition</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            background-color: #f3eaff; 
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #3c1361; 
+        }
+
+        #mainNav .nav-link, #mainNav .navbar-brand {
+            color: #3c1361 !important; 
+            font-weight: 700;
+        }
+
+        #game-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 400px;
+            margin-top: 100px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: white;
+            padding: 10px 0;
+            border: 3px solid #3c1361;
+            border-bottom: none;
+            border-radius: 15px 15px 0 0;
+        }
+
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 450px;
+            background-color: #ffffff;
+            border: 4px solid #3c1361;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 10px 10px 0px #3c1361;
+            overflow: hidden;
+            cursor: none; 
+        }
+
+        #player {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 45px;
+            height: 45px;
+            background-color: #3c1361;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 10;
+        }
+
+        .falling-obj {
+            position: absolute;
+            top: -50px;
+            font-size: 30px;
+        }
+
+        .game-screen {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #3c1361;
+            z-index: 100;
+            width: 300px; /* Slightly wider for the lyric titles */
+        }
+
+        button {
+            background-color: #3c1361;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">Addilyn Lewis</a>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="vampire-game.html">Game</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="olivia.html">Scratch</a></li>
+                   
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="game-stats">
+        <div>Points: <span id="score">0</span>/100</div>
+        <div>Lives: <span id="lives">3</span></div>
+    </div>
+
+    <div id="game-container">
+        <div id="player">💜</div>
+
+        <div id="win-screen" class="game-screen">
+            <h2 style="color: #3c1361; font-size: 1.5rem;">PERFECT ALL-AMERICAN WIN!</h2>
+            <p id="win-msg"></p>
+            <button onclick="resetGame()">Play Again</button>
+        </div>
+
+        <div id="loss-screen" class="game-screen">
+            <h2 style="color: red; font-size: 1.5rem;">SUNK YOUR TEETH INTO LOSS...</h2>
+            <p id="loss-msg"></p>
+            <button onclick="resetGame()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('game-container');
+        const player = document.getElementById('player');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplay = document.getElementById('lives');
+        
+        let score = 0;
+        let lives = 3;
+        let gameActive = true;
+        let speed = 4.5;
+
+        const winPhrases = [
+            "God, it's brutal out here, but you survived!",
+            "You're not a 'traitor', you're a winner!",
+            "I'm grateful all the time... that you reached 100 points!"
+        ];
+
+        const lossPhrases = [
+            "Hate to give you the satisfaction, you got staked.",
+            "I've made some bad decisions, and getting hit was one of them.",
+            "You're bleeding me dry! Try again."
+        ];
+
+        container.addEventListener('mousemove', (e) => {
+            if (!gameActive) return;
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            if (x > 25 && x < 375) player.style.left = x + 'px';
+        });
+
+        function spawnObject() {
+            if (!gameActive) return;
+            const obj = document.createElement('div');
+            obj.classList.add('falling-obj');
+            const isCandy = Math.random() > 0.7;
+            obj.innerHTML = isCandy ? '🍬' : '🪵';
+            obj.dataset.type = isCandy ? 'good' : 'bad';
+            obj.style.left = Math.random() * 350 + 'px';
+            container.appendChild(obj);
+
+            let topPos = -50;
+            const fallInterval = setInterval(() => {
+                if (!gameActive) { clearInterval(fallInterval); obj.remove(); return; }
+                topPos += speed;
+                obj.style.top = topPos + 'px';
+                const pRect = player.getBoundingClientRect();
+                const oRect = obj.getBoundingClientRect();
+
+                if (oRect.bottom > pRect.top && oRect.top < pRect.bottom && 
+                    oRect.right > pRect.left && oRect.left < pRect.right) {
+                    clearInterval(fallInterval);
+                    obj.remove();
+                    if (obj.dataset.type === 'bad') {
+                        lives--;
+                        livesDisplay.innerText = lives;
+                    } else {
+                        score += 5;
+                        scoreDisplay.innerText = score;
+                    }
+                    checkGameState();
+                }
+                if (topPos > 450) {
+                    clearInterval(fallInterval);
+                    obj.remove();
+                    speed += 0.02; 
+                }
+            }, 20);
+        }
+
+        function checkGameState() {
+            if (lives <= 0) {
+                gameActive = false;
+                document.getElementById('loss-msg').innerText = lossPhrases[Math.floor(Math.random() * lossPhrases.length)];
+                document.getElementById('loss-screen').style.display = 'block';
+                container.style.cursor = 'default';
+            } else if (score >= 100) {
+                gameActive = false;
+                document.getElementById('win-msg').innerText = winPhrases[Math.floor(Math.random() * winPhrases.length)];
+                document.getElementById('win-screen').style.display = 'block';
+                container.style.cursor = 'default';
+            }
+        }
+
+        function resetGame() {
+            score = 0; lives = 3; speed = 4.5; gameActive = true;
+            scoreDisplay.innerText = score;
+            livesDisplay.innerText = lives;
+            document.getElementById('win-screen').style.display = 'none';
+            document.getElementById('loss-screen').style.display = 'none';
+            container.style.cursor = 'none';
+            document.querySelectorAll('.falling-obj').forEach(o => o.remove());
+        }
+
+        setInterval(spawnObject, 400);
+    </script>
+</body>
+</html>
